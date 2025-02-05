@@ -78,5 +78,6 @@ game_t *init_game(void)
         return NULL;
     }
     game->player->grounded = 0;
+    game->player->movement = 0;
     return game;
 }

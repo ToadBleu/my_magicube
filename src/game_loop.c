@@ -34,7 +34,7 @@ int game(game_t *game)
 
     while (sfRenderWindow_isOpen(window) && clock != NULL && window != NULL){
         while (sfRenderWindow_pollEvent(window, &event) == sfTrue)
-            analyse_event(window, event);
+            analyse_event(window, event, game);
         if (do_render(clock) == 1) {
             sfRenderWindow_clear(window, sfBlack);
             collision(game);

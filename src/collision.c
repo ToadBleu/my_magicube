@@ -16,10 +16,9 @@ void collision(game_t *game)
     player_feet.left = player_feet.left - 2;
     player_feet.width = player_feet.width - 4;
 
-    if (sfFloatRect_intersects(&player_feet, &ground, NULL) == sfTrue) {
+    if (sfFloatRect_intersects(&player_feet, &ground, NULL) == sfTrue)
         game->player->grounded = 1;
-        return;
-    }
-    game->player->grounded = 0;
+    else
+        game->player->grounded = 0;
     return;
 }

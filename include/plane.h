@@ -7,7 +7,7 @@
     #define BACKGROUND "./include/texture/back.jpg"
     #define PLAYER "./include/texture/plane.png"
     #define TEXT "./include/text.ttf"
-    #define FALL_SPEED 9.80665 / 5
+    #define FALL_SPEED 9.80665 / 60
 
     #include <SFML/Graphics.h>
     #include <SFML/Graphics/Rect.h>
@@ -17,8 +17,9 @@
 
 typedef struct player_s {
     sfVector2f offset;
-    sfBool grounded;
     sfClock *fall_time;
+    sfBool grounded;
+    int movement;
 } player_t;
 
 typedef struct sprite_s {
@@ -42,7 +43,8 @@ game_t *init_game(void);
 void free_game(game_t *game);
 void move_player(game_t *game);
 int render(sfRenderWindow *window, game_t *game);
-void analyse_event(sfRenderWindow *window, sfEvent event);
+void analyse_event(sfRenderWindow *window, sfEvent event, game_t *game);
+void jump(game_t *game);
 void free_all(sfRenderWindow *window, game_t *game, sfClock *clock);
 
 #endif
