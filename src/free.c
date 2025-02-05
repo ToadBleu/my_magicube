@@ -6,6 +6,7 @@
 */
 
 #include "plane.h"
+#include <SFML/Graphics/RectangleShape.h>
 #include <SFML/Graphics/Sprite.h>
 #include <SFML/Graphics/Texture.h>
 #include <SFML/Graphics/Types.h>
@@ -36,6 +37,10 @@ void free_game(game_t *game)
     if (game->sprite) {
         free_sprite(game->sprite);
         free(game->sprite);
+    }
+    if (game->object) {
+        sfRectangleShape_destroy(game->object->ground);
+        free(game->object);
     }
     free(game);
 }

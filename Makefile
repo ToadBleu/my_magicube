@@ -7,6 +7,7 @@
 
 SRC	=	./src/main.c\
 		./src/event.c\
+		./src/collision.c\
 		./src/free.c\
 		./src/game_loop.c\
 		./src/init_game.c\

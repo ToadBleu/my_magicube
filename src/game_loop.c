@@ -1,9 +1,3 @@
-/*
-** EPITECH PROJECT, 2024
-** game_loop.c
-** File description:
-** game loop
-*/
 
 #include "plane.h"
 #include <time.h>
@@ -43,6 +37,7 @@ int game(game_t *game)
             analyse_event(window, event);
         if (do_render(clock) == 1) {
             sfRenderWindow_clear(window, sfBlack);
+            collision(game);
             move_player(game);
             render(window, game);
             sfRenderWindow_display(window);

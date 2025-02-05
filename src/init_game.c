@@ -1,11 +1,28 @@
 
 #include "plane.h"
 #include <SFML/Config.h>
+#include <SFML/Graphics/Color.h>
+#include <SFML/Graphics/RectangleShape.h>
 #include <SFML/Graphics/Sprite.h>
 #include <SFML/Graphics/Texture.h>
+#include <SFML/Graphics/Types.h>
 #include <SFML/System/Clock.h>
 #include <SFML/System/Vector2.h>
 #include <stdlib.h>
+
+int init_ground(object_t *object)
+{
+    sfVector2f size = {1920, 50};
+    sfVector2f position = {0, 1080 - 500};
+
+    object->ground = sfRectangleShape_create();
+    if (!object->ground)
+        return EXIT_FAILURE;
+    sfRectangleShape_setSize(object->ground, size);
+    sfRectangleShape_setFillColor(object->ground, sfBlack);
+    sfRectangleShape_setPosition(object->ground, position);
+    return EXIT_SUCCESS;
+}
 
 int init_sprite(sprite_t *data_sprite)
 {
@@ -44,9 +61,11 @@ game_t *init_game(void)
         return NULL;
     game->player = malloc(sizeof(player_t));
     game->sprite = malloc(sizeof(sprite_t));
+    game->object = malloc(sizeof(object_t));
     game->player->offset = (sfVector2f){0, 0};
     game->player->fall_time = sfClock_create();
-    if (!game->sprite || !game->player || !game->player->fall_time) {
+    if (!game->sprite || !game->player || !game->player->fall_time
+        || !game->object) {
         free_game(game);
         return NULL;
     }
@@ -54,5 +73,10 @@ game_t *init_game(void)
         free_game(game);
         return NULL;
     }
+    if (init_ground(game->object) != 0) {
+        free(game);
+        return NULL;
+    }
+    game->player->grounded = 0;
     return game;
 }

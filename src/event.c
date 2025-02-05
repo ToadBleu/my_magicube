@@ -1,9 +1,3 @@
-/*
-** EPITECH PROJECT, 2024
-** event.c
-** File description:
-** handle event
-*/
 
 #include "plane.h"
 #include <SFML/Window/Event.h>
