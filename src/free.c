@@ -41,10 +41,10 @@ void free_game(game_t *game)
         free(game->sprite);
     }
     if (game->object) {
-        for (object_t *obj; !obj; obj = next_obj) {
+        for (object_t *obj = game->object; obj; obj = next_obj) {
             next_obj = obj->next;
             sfRectangleShape_destroy(obj->ground);
-            free(game->object);
+            free(obj);
         }
     }
     free(game);

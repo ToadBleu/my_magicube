@@ -24,7 +24,7 @@ int init_ground(game_t *game)
     sfRectangleShape_setSize(object->ground, size);
     sfRectangleShape_setFillColor(object->ground, sfBlack);
     sfRectangleShape_setPosition(object->ground, position);
-    object->next = NULL;
+    object->next = game->object;
     game->object = object;
 
     object = malloc(sizeof(object_t));
@@ -96,11 +96,10 @@ game_t *init_game(void)
         return NULL;
     game->player = malloc(sizeof(player_t));
     game->sprite = malloc(sizeof(sprite_t));
-    game->object = malloc(sizeof(object_t));
+    game->object = NULL;
     game->player->offset = (sfVector2f){0, 0};
     game->player->fall_time = sfClock_create();
-    if (!game->sprite || !game->player || !game->player->fall_time
-        || !game->object) {
+    if (!game->sprite || !game->player || !game->player->fall_time) {
         free_game(game);
         return NULL;
     }
