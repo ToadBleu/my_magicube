@@ -29,6 +29,8 @@ void free_sprite(sprite_t *sprite)
 
 void free_game(game_t *game)
 {
+    object_t *next_obj;
+
     if (game->player) {
         if (game->player->fall_time)
             sfClock_destroy(game->player->fall_time);
@@ -39,8 +41,11 @@ void free_game(game_t *game)
         free(game->sprite);
     }
     if (game->object) {
-        sfRectangleShape_destroy(game->object->ground);
-        free(game->object);
+        for (object_t *obj; !obj; obj = next_obj) {
+            next_obj = obj->next;
+            sfRectangleShape_destroy(obj->ground);
+            free(game->object);
+        }
     }
     free(game);
 }

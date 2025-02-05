@@ -9,6 +9,8 @@ int render(sfRenderWindow *window, game_t *game)
 {
     sfRenderWindow_drawSprite(window, game->sprite->background, NULL);
     sfRenderWindow_drawSprite(window, game->sprite->player, NULL);
-    sfRenderWindow_drawRectangleShape(window, game->object->ground, NULL);
+    for (object_t *obj = game->object; obj != NULL; obj = obj->next) {
+        sfRenderWindow_drawRectangleShape(window, obj->ground, NULL);
+    }
     return EXIT_SUCCESS;
 }

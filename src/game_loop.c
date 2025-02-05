@@ -37,8 +37,8 @@ int game(game_t *game)
             analyse_event(window, event, game);
         if (do_render(clock) == 1) {
             sfRenderWindow_clear(window, sfBlack);
-            collision(game);
             move_player(game);
+            collision(game);
             render(window, game);
             sfRenderWindow_display(window);
         }

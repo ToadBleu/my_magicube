@@ -27,9 +27,9 @@ void analyse_event(sfRenderWindow *window, sfEvent event, game_t *game)
         }
     }
     if (event.type == sfEvtKeyReleased) {
-        if (event.key.code == sfKeyQ && game->player->movement < 0)
+        if (event.key.code == sfKeyQ && game->player->movement <= 0)
                 game->player->movement = 0;
-        if (event.key.code == sfKeyD && game->player->movement > 0)
+        if (event.key.code == sfKeyD && game->player->movement >= 0)
                 game->player->movement = 0;
 
     }

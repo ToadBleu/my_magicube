@@ -10,11 +10,14 @@
 #include <SFML/System/Vector2.h>
 #include <stdlib.h>
 
-int init_ground(object_t *object)
+int init_ground(game_t *game)
 {
+    object_t *object = malloc(sizeof(object_t));
     sfVector2f size = {1920, 50};
-    sfVector2f position = {0, 1080 - 500};
+    sfVector2f position = {0, 1080 - 250};
 
+    if (!object)
+        return EXIT_FAILURE;
     object->ground = sfRectangleShape_create();
     if (!object->ground)
         return EXIT_FAILURE;
@@ -22,6 +25,37 @@ int init_ground(object_t *object)
     sfRectangleShape_setFillColor(object->ground, sfBlack);
     sfRectangleShape_setPosition(object->ground, position);
     object->next = NULL;
+    game->object = object;
+
+    object = malloc(sizeof(object_t));
+    size = (sfVector2f){100, 500};
+    position = (sfVector2f){1000, 800};
+    if (!object)
+            return EXIT_FAILURE;
+        object->ground = sfRectangleShape_create();
+        if (!object->ground)
+            return EXIT_FAILURE;
+        sfRectangleShape_setSize(object->ground, size);
+        sfRectangleShape_setFillColor(object->ground, sfBlack);
+        sfRectangleShape_setPosition(object->ground, position);
+        object->next = game->object;
+        game->object = object;
+
+    object = malloc(sizeof(object_t));
+    size = (sfVector2f){100, 500};
+    position = (sfVector2f){800, 300};
+    if (!object)
+            return EXIT_FAILURE;
+        object->ground = sfRectangleShape_create();
+        if (!object->ground)
+            return EXIT_FAILURE;
+        sfRectangleShape_setSize(object->ground, size);
+        sfRectangleShape_setFillColor(object->ground, sfBlack);
+        sfRectangleShape_setPosition(object->ground, position);
+        object->next = game->object;
+        game->object = object;
+
+
     return EXIT_SUCCESS;
 }
 
@@ -74,7 +108,7 @@ game_t *init_game(void)
         free_game(game);
         return NULL;
     }
-    if (init_ground(game->object) != 0) {
+    if (init_ground(game) != 0) {
         free(game);
         return NULL;
     }
