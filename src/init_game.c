@@ -21,6 +21,7 @@ int init_ground(object_t *object)
     sfRectangleShape_setSize(object->ground, size);
     sfRectangleShape_setFillColor(object->ground, sfBlack);
     sfRectangleShape_setPosition(object->ground, position);
+    object->next = NULL;
     return EXIT_SUCCESS;
 }
 

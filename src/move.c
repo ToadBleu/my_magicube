@@ -9,7 +9,7 @@
 void jump(game_t *game)
 {
     if (game->player->grounded) {
-        game->player->offset.y = -2;
+        game->player->offset.y = -3;
         game->player->grounded = sfFalse;
     }
 }

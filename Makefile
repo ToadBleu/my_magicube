@@ -22,7 +22,7 @@ INCL = -I./include
 
 WARN	=	-Wall -Wextra -Werror
 
-NAME	=	my_game
+NAME	=	my_magicube
 
 all:	$(NAME)
 
@@ -39,3 +39,8 @@ fclean:	clean
 	rm -f $(NAME)
 
 re:	fclean	all
+
+run:
+	make re
+	./$(NAME)
+	make fclean

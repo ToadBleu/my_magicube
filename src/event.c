@@ -13,12 +13,13 @@ void analyse_event(sfRenderWindow *window, sfEvent event, game_t *game)
                 sfRenderWindow_close(window);
                 break;
             case sfKeyQ:
-                game->player->movement = -1;
+                game->player->movement = -3;
                 break;
             case sfKeyD:
-                game->player->movement = 1;
+                game->player->movement = 3;
                 break;
             case sfKeySpace:
+            case sfKeyZ:
                 jump(game);
                 break;
             default:
@@ -26,9 +27,9 @@ void analyse_event(sfRenderWindow *window, sfEvent event, game_t *game)
         }
     }
     if (event.type == sfEvtKeyReleased) {
-        if (event.key.code == sfKeyQ && game->player->movement == -1)
+        if (event.key.code == sfKeyQ && game->player->movement < 0)
                 game->player->movement = 0;
-        if (event.key.code == sfKeyD && game->player->movement == 1)
+        if (event.key.code == sfKeyD && game->player->movement > 0)
                 game->player->movement = 0;
 
     }

@@ -1,14 +1,14 @@
 
 #ifndef PLANE_
     #define PLANE_
-    #include <SFML/Config.h>
-#define EXIT_SUCCESS 0
+    #define EXIT_SUCCESS 0
     #define EXIT_FAILURE 1
     #define BACKGROUND "./include/texture/back.jpg"
     #define PLAYER "./include/texture/plane.png"
     #define TEXT "./include/text.ttf"
-    #define FALL_SPEED 9.80665 / 60
+    #define FALL_SPEED 9.80665 / 30
 
+    #include <SFML/Config.h>
     #include <SFML/Graphics.h>
     #include <SFML/Graphics/Rect.h>
     #include <SFML/Graphics/Types.h>
@@ -29,6 +29,7 @@ typedef struct sprite_s {
 
 typedef struct object_s {
     sfRectangleShape *ground;
+    struct object_s *next;
 } object_t;
 
 typedef struct game_s {
