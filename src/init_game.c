@@ -63,6 +63,7 @@ int init_sprite(sprite_t *data_sprite)
     if (!sprite)
         return EXIT_FAILURE;
     sfSprite_setTexture(sprite, texture, sfFalse);
+    // sfSprite_setOrigin(sprite, (sfVector2f){10, 10});
     data_sprite->player = sprite;
 
     return EXIT_SUCCESS;

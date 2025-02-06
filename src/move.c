@@ -30,6 +30,10 @@ void move_player(game_t *game)
         game->player->offset.y = 0;
     }
     game->player->offset.x = game->player->movement;
+    // if (game->player->movement > 0)
+    //     sfSprite_setRotation(game->sprite->player, 0);
+    // else if (game->player->movement < 0)
+    //     sfSprite_setRotation(game->sprite->player, 180);
     sfSprite_move(game->sprite->player, game->player->offset);
 }
 

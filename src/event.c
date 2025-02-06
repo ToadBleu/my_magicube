@@ -13,7 +13,7 @@ void analyse_event(sfRenderWindow *window, sfEvent event, game_t *game)
                 sfRenderWindow_close(window);
                 break;
             case sfKeyA:
-                game->player->spell = 1;
+                game->player->spell = (game->player->spell + 1) % 2;
                 break;
             case sfKeyQ:
             case sfKeyD:
