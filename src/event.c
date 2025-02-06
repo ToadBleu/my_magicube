@@ -11,6 +11,13 @@ void analyse_event(sfRenderWindow *window, sfEvent event, game_t *game)
         switch (event.key.code) {
             case sfKeyEscape:
                 sfRenderWindow_close(window);
+                break;
+            case sfKeyA:
+                game->player->spell = 1;
+                break;
+            case sfKeyQ:
+            case sfKeyD:
+                spell(game);
             default:
                 break;
         }

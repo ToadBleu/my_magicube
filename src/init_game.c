@@ -33,8 +33,8 @@ int init_ground(game_t *game)
         return EXIT_FAILURE;
     sfCircleShape_setPointCount(game->object->arrow, 3);
     sfCircleShape_setRadius(game->object->arrow, 5);
+    sfCircleShape_setFillColor(game->object->arrow, sfYellow);
     sfCircleShape_setOrigin(game->object->arrow, (sfVector2f){5, 5});
-    sfCircleShape_setRotation(game->object->arrow, 90);
 
     return EXIT_SUCCESS;
 }
@@ -79,6 +79,8 @@ game_t *init_game(void)
     game->object = malloc(sizeof(object_t));
     game->player->offset = (sfVector2f){0, 0};
     game->player->fall_time = sfClock_create();
+    game->player->spell = 0;
+    game->player->grounded = 0;
     if (!game->sprite || !game->player || !game->player->fall_time
         || !game->object) {
         free_game(game);

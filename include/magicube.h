@@ -19,6 +19,7 @@ typedef struct player_s {
     sfVector2f offset;
     sfClock *fall_time;
     sfBool grounded;
+    sfBool spell;
     int movement;
 } player_t;
 
@@ -48,8 +49,9 @@ void collision(game_t *game);
 game_t *init_game(void);
 void process_keys(game_t *game);
 void free_game(game_t *game);
-void move_player(game_t *game);
+void move(game_t *game);
 int render(sfRenderWindow *window, game_t *game);
+void spell(game_t *game);
 void analyse_event(sfRenderWindow *window, sfEvent event, game_t *game);
 void jump(game_t *game);
 void free_all(sfRenderWindow *window, game_t *game, sfClock *clock);

@@ -14,6 +14,7 @@ SRC	=	./src/main.c\
 		./src/move.c\
 		./src/render.c\
 		./src/process_key.c\
+		./src/spell.c\
 
 OBJ	=	$(SRC:.c=.o)
 

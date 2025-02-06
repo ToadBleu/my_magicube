@@ -8,7 +8,7 @@
 
 void jump(game_t *game)
 {
-    if (game->player->grounded) {
+    if (game->player->grounded && !game->player->spell) {
         game->player->offset.y = -5;
         game->player->grounded = sfFalse;
         sfClock_restart(game->player->fall_time);
@@ -31,4 +31,12 @@ void move_player(game_t *game)
     }
     game->player->offset.x = game->player->movement;
     sfSprite_move(game->sprite->player, game->player->offset);
+}
+
+void move(game_t *game)
+{
+    if (game->player->spell) {
+        game->player->movement = 0;
+    }
+    move_player(game);
 }
