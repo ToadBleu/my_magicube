@@ -5,7 +5,8 @@
 ** free
 */
 
-#include "plane.h"
+#include "magicube.h"
+#include <SFML/Graphics/CircleShape.h>
 #include <SFML/Graphics/RectangleShape.h>
 #include <SFML/Graphics/Sprite.h>
 #include <SFML/Graphics/Texture.h>
@@ -29,7 +30,7 @@ void free_sprite(sprite_t *sprite)
 
 void free_game(game_t *game)
 {
-    object_t *next_obj;
+    ground_t *next_obj = NULL;
 
     if (game->player) {
         if (game->player->fall_time)
@@ -41,11 +42,13 @@ void free_game(game_t *game)
         free(game->sprite);
     }
     if (game->object) {
-        for (object_t *obj = game->object; obj; obj = next_obj) {
+        for (ground_t *obj = game->object->ground; obj; obj = next_obj) {
             next_obj = obj->next;
             sfRectangleShape_destroy(obj->ground);
             free(obj);
         }
+        if (game->object->arrow)
+            sfCircleShape_destroy(game->object->arrow);
     }
     free(game);
 }

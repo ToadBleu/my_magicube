@@ -1,5 +1,5 @@
 
-#include "plane.h"
+#include "magicube.h"
 #include <stdio.h>
 
 int main(void) {

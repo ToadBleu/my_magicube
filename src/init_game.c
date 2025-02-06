@@ -1,6 +1,7 @@
 
-#include "plane.h"
+#include "magicube.h"
 #include <SFML/Config.h>
+#include <SFML/Graphics/CircleShape.h>
 #include <SFML/Graphics/Color.h>
 #include <SFML/Graphics/RectangleShape.h>
 #include <SFML/Graphics/Sprite.h>
@@ -12,49 +13,28 @@
 
 int init_ground(game_t *game)
 {
-    object_t *object = malloc(sizeof(object_t));
+    ground_t *ground = malloc(sizeof(object_t));
     sfVector2f size = {1920, 50};
     sfVector2f position = {0, 1080 - 250};
 
-    if (!object)
+    if (!ground)
         return EXIT_FAILURE;
-    object->ground = sfRectangleShape_create();
-    if (!object->ground)
+    ground->ground = sfRectangleShape_create();
+    if (!ground->ground)
         return EXIT_FAILURE;
-    sfRectangleShape_setSize(object->ground, size);
-    sfRectangleShape_setFillColor(object->ground, sfBlack);
-    sfRectangleShape_setPosition(object->ground, position);
-    object->next = game->object;
-    game->object = object;
+    sfRectangleShape_setSize(ground->ground, size);
+    sfRectangleShape_setFillColor(ground->ground, sfBlack);
+    sfRectangleShape_setPosition(ground->ground, position);
+    ground->next = game->object->ground;
+    game->object->ground = ground;
 
-    object = malloc(sizeof(object_t));
-    size = (sfVector2f){100, 500};
-    position = (sfVector2f){1000, 800};
-    if (!object)
-            return EXIT_FAILURE;
-        object->ground = sfRectangleShape_create();
-        if (!object->ground)
-            return EXIT_FAILURE;
-        sfRectangleShape_setSize(object->ground, size);
-        sfRectangleShape_setFillColor(object->ground, sfBlack);
-        sfRectangleShape_setPosition(object->ground, position);
-        object->next = game->object;
-        game->object = object;
-
-    object = malloc(sizeof(object_t));
-    size = (sfVector2f){100, 500};
-    position = (sfVector2f){800, 300};
-    if (!object)
-            return EXIT_FAILURE;
-        object->ground = sfRectangleShape_create();
-        if (!object->ground)
-            return EXIT_FAILURE;
-        sfRectangleShape_setSize(object->ground, size);
-        sfRectangleShape_setFillColor(object->ground, sfBlack);
-        sfRectangleShape_setPosition(object->ground, position);
-        object->next = game->object;
-        game->object = object;
-
+    game->object->arrow = sfCircleShape_create();
+    if (!game->object->arrow)
+        return EXIT_FAILURE;
+    sfCircleShape_setPointCount(game->object->arrow, 3);
+    sfCircleShape_setRadius(game->object->arrow, 5);
+    sfCircleShape_setOrigin(game->object->arrow, (sfVector2f){5, 5});
+    sfCircleShape_setRotation(game->object->arrow, 90);
 
     return EXIT_SUCCESS;
 }
@@ -96,13 +76,18 @@ game_t *init_game(void)
         return NULL;
     game->player = malloc(sizeof(player_t));
     game->sprite = malloc(sizeof(sprite_t));
-    game->object = NULL;
+    game->object = malloc(sizeof(object_t));
     game->player->offset = (sfVector2f){0, 0};
     game->player->fall_time = sfClock_create();
-    if (!game->sprite || !game->player || !game->player->fall_time) {
+    if (!game->sprite || !game->player || !game->player->fall_time
+        || !game->object) {
         free_game(game);
         return NULL;
     }
+    game->sprite->background = NULL;
+    game->sprite->player = NULL;
+    game->object->ground = NULL;
+    game->object->arrow = NULL;
     if (init_sprite(game->sprite) != 0) {
         free_game(game);
         return NULL;

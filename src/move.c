@@ -1,5 +1,5 @@
 
-#include "plane.h"
+#include "magicube.h"
 #include <SFML/Config.h>
 #include <SFML/Graphics/Sprite.h>
 #include <SFML/Graphics/Types.h>
@@ -9,8 +9,9 @@
 void jump(game_t *game)
 {
     if (game->player->grounded) {
-        game->player->offset.y = -3;
+        game->player->offset.y = -5;
         game->player->grounded = sfFalse;
+        sfClock_restart(game->player->fall_time);
     }
 }
 

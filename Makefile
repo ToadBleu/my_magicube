@@ -13,6 +13,7 @@ SRC	=	./src/main.c\
 		./src/init_game.c\
 		./src/move.c\
 		./src/render.c\
+		./src/process_key.c\
 
 OBJ	=	$(SRC:.c=.o)
 

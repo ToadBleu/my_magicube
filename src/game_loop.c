@@ -1,5 +1,5 @@
 
-#include "plane.h"
+#include "magicube.h"
 #include <time.h>
 #include <stdlib.h>
 
@@ -37,6 +37,7 @@ int game(game_t *game)
             analyse_event(window, event, game);
         if (do_render(clock) == 1) {
             sfRenderWindow_clear(window, sfBlack);
+            process_keys(game);
             move_player(game);
             collision(game);
             render(window, game);
