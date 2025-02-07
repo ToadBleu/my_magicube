@@ -24,7 +24,7 @@ int collision_side_left_player(game_t *game, ground_t *ground)
 {
     sfFloatRect player_body = sfSprite_getGlobalBounds(game->sprite->player);
     sfFloatRect ground_bound = sfRectangleShape_getGlobalBounds(ground->ground);
-    sfVector2f pos_left = {ground_bound.left + ground_bound.width / 2, player_body.top + player_body.height / 2};
+    sfVector2f pos_left = {ground_bound.left + ground_bound.width + player_body.width / 2 + 1, player_body.top + player_body.height / 2};
 
     player_body.top += 1;
     player_body.height -= 2;

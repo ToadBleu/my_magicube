@@ -57,23 +57,21 @@ void collision_head_box(game_t *game, box_t *box_bottom)
 
 int collision_side_left_box(game_t *game, box_t *box)
 {
-    sfFloatRect box_left;
+    sfFloatRect box_side;
     sfFloatRect ground_bound;
     sfVector2f pos_left;
     ground_t *ground = game->object->ground;
 
-    if (collision_side_left_box_player(game, box) == EXIT_SUCCESS)
-        return EXIT_SUCCESS;
     while (ground) {
-        box_left = sfRectangleShape_getGlobalBounds(box->box);
+        box_side = sfRectangleShape_getGlobalBounds(box->box);
         ground_bound = sfRectangleShape_getGlobalBounds(ground->ground);
-        pos_left = (sfVector2f){box_left.left + box_left.width / 2, ground_bound.top - box_left.height / 2};
-        box_left.top += 1;
-        box_left.height -= 2;
-        box_left.left -= 1;
-        box_left.width = 2;
+        pos_left = (sfVector2f){ground_bound.left + ground_bound.width + box_side.width / 2, box_side.top + box_side.height / 2};
+        box_side.top += 1;
+        box_side.height -= 2;
+        box_side.left -= 1;
+        box_side.width = 2;
 
-        if (sfFloatRect_intersects(&box_left, &ground_bound, NULL) == sfTrue) {
+        if (sfFloatRect_intersects(&box_side, &ground_bound, NULL) == sfTrue) {
             sfRectangleShape_setPosition(box->box, pos_left);
             return EXIT_SUCCESS;
         }
@@ -89,12 +87,10 @@ int collision_side_right_box(game_t *game, box_t *box)
     sfVector2f pos_right;
     ground_t *ground = game->object->ground;
 
-    if (collision_side_right_box_player(game, box) == EXIT_SUCCESS)
-        return EXIT_SUCCESS;
     while (ground) {
         box_side = sfRectangleShape_getGlobalBounds(box->box);
         ground_bound = sfRectangleShape_getGlobalBounds(ground->ground);
-        pos_right = (sfVector2f){box_side.left + box_side.width / 2, ground_bound.top - box_side.height / 2};
+        pos_right = (sfVector2f){ground_bound.left - box_side.width / 2, box_side.top + box_side.height / 2};
         box_side.top += 1;
         box_side.height -= 2;
         box_side.left += box_side.width;
@@ -123,9 +119,9 @@ void collision_box(game_t *game)
         collision_head_box_player(game, box);
     }
     for (box_t *box = start; box != NULL; box = box->next) {
-        if (collision_side_left_box(game, box) == EXIT_SUCCESS)
+        if (collision_side_left_box_player(game, box) == EXIT_SUCCESS)
             continue;
-        if (collision_side_right_box(game, box) == EXIT_SUCCESS)
+        if (collision_side_right_box_player(game, box) == EXIT_SUCCESS)
             continue;
     }
 }

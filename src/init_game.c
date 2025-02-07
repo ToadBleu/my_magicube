@@ -131,6 +131,36 @@ int init_ground(game_t *game)
     ground->next = game->object->ground;
     game->object->ground = ground;
 
+    ground = malloc(sizeof(object_t));
+    size = (sfVector2f){50, 1000};
+    position = (sfVector2f){1920.0/3, 1080 - 250};
+    if (!ground)
+        return EXIT_FAILURE;
+    ground->ground = sfRectangleShape_create();
+    if (!ground->ground)
+        return EXIT_FAILURE;
+    sfRectangleShape_setSize(ground->ground, size);
+    sfRectangleShape_setFillColor(ground->ground, sfBlack);
+    sfRectangleShape_setOrigin(ground->ground, (sfVector2f){size.x / 2, size.y / 2});
+    sfRectangleShape_setPosition(ground->ground, position);
+    ground->next = game->object->ground;
+    game->object->ground = ground;
+
+    ground = malloc(sizeof(object_t));
+    size = (sfVector2f){50, 1000};
+    position = (sfVector2f){1920.0/6, 1080 - 250};
+    if (!ground)
+        return EXIT_FAILURE;
+    ground->ground = sfRectangleShape_create();
+    if (!ground->ground)
+        return EXIT_FAILURE;
+    sfRectangleShape_setSize(ground->ground, size);
+    sfRectangleShape_setFillColor(ground->ground, sfBlack);
+    sfRectangleShape_setOrigin(ground->ground, (sfVector2f){size.x / 2, size.y / 2});
+    sfRectangleShape_setPosition(ground->ground, position);
+    ground->next = game->object->ground;
+    game->object->ground = ground;
+
     game->object->arrow = sfCircleShape_create();
     if (!game->object->arrow)
         return EXIT_FAILURE;
@@ -168,6 +198,7 @@ int init_sprite(sprite_t *data_sprite)
     sfSprite_setTexture(sprite, texture, sfFalse);
     sfSprite_setOrigin(sprite, (sfVector2f){10, 10});
     data_sprite->player = sprite;
+    sfSprite_setPosition(sprite, (sfVector2f){1920.0/4.5, 250});
 
     return EXIT_SUCCESS;
 }
