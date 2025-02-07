@@ -10,6 +10,7 @@ SRC	=	./src/main.c\
 		./src/collision/collision.c\
 		./src/collision/collision_player.c\
 		./src/collision/collision_box.c\
+		./src/collision/collision_box_player.c\
 		./src/free.c\
 		./src/game_loop.c\
 		./src/init_game.c\

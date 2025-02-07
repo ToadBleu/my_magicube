@@ -66,5 +66,8 @@ void jump(game_t *game);
 void free_all(sfRenderWindow *window, game_t *game, sfClock *clock);
 void collision_player_wall(game_t *game);
 void collision_box(game_t *game);
+void collision_head_box_player(game_t *game, box_t *box);
+int collision_side_left_box_player(game_t *game, box_t *box);
+int collision_side_right_box_player(game_t *game, box_t *box);
 
 #endif
