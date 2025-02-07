@@ -11,6 +11,27 @@
 #include <SFML/System/Vector2.h>
 #include <stdlib.h>
 
+int init_box(game_t *game)
+{
+    box_t *box = malloc(sizeof(box_t));
+
+    if (!box)
+        return EXIT_FAILURE;
+    box->box = sfRectangleShape_create();
+    box->fall_time = sfClock_create();
+    if (!box->box || !box->fall_time)
+        return EXIT_FAILURE;
+    box->grounded = 0;
+    sfRectangleShape_setSize(box->box, (sfVector2f){20, 20});
+    sfRectangleShape_setOrigin(box->box, (sfVector2f){10, 10});
+    sfRectangleShape_setPosition(box->box, (sfVector2f){500, 500});
+    sfRectangleShape_setFillColor(box->box, sfGreen);
+    box->next = game->object->boxs;
+    game->object->boxs = box;
+
+    return EXIT_SUCCESS;
+}
+
 int init_ground(game_t *game)
 {
     ground_t *ground = malloc(sizeof(object_t));
@@ -63,7 +84,7 @@ int init_sprite(sprite_t *data_sprite)
     if (!sprite)
         return EXIT_FAILURE;
     sfSprite_setTexture(sprite, texture, sfFalse);
-    // sfSprite_setOrigin(sprite, (sfVector2f){10, 10});
+    sfSprite_setOrigin(sprite, (sfVector2f){10, 10});
     data_sprite->player = sprite;
 
     return EXIT_SUCCESS;
@@ -78,20 +99,23 @@ game_t *init_game(void)
     game->player = malloc(sizeof(player_t));
     game->sprite = malloc(sizeof(sprite_t));
     game->object = malloc(sizeof(object_t));
+
+    if (!game->sprite || !game->player || !game->object) {
+        free_game(game);
+        return NULL;
+    }
     game->player->offset = (sfVector2f){0, 0};
     game->player->fall_time = sfClock_create();
     game->player->spell = 0;
     game->player->grounded = 0;
-    if (!game->sprite || !game->player || !game->player->fall_time
-        || !game->object) {
-        free_game(game);
-        return NULL;
-    }
+    game->player->movement = 0;
     game->sprite->background = NULL;
     game->sprite->player = NULL;
     game->object->ground = NULL;
     game->object->arrow = NULL;
-    if (init_sprite(game->sprite) != 0) {
+    game->object->boxs = NULL;
+    game->object->spell_box = NULL;
+    if (!game->player->fall_time || init_sprite(game->sprite) != 0) {
         free_game(game);
         return NULL;
     }
@@ -99,7 +123,9 @@ game_t *init_game(void)
         free(game);
         return NULL;
     }
-    game->player->grounded = 0;
-    game->player->movement = 0;
+    if (init_box(game) != 0) {
+        free(game);
+        return NULL;
+    }
     return game;
 }

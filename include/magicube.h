@@ -15,6 +15,18 @@
     #include <SFML/System/Types.h>
     #include <SFML/System/Vector2.h>
 
+typedef struct box_s {
+    sfRectangleShape *box;
+    struct box_s *next;
+    sfClock *fall_time;
+    sfBool grounded;
+} box_t;
+
+typedef struct ground_s {
+    sfRectangleShape *ground;
+    struct ground_s *next;
+} ground_t;
+
 typedef struct player_s {
     sfVector2f offset;
     sfClock *fall_time;
@@ -23,20 +35,17 @@ typedef struct player_s {
     int movement;
 } player_t;
 
-typedef struct ground_s {
-    sfRectangleShape *ground;
-    struct ground_s *next;
-} ground_t;
+typedef struct object_s {
+    ground_t *ground;
+    box_t *boxs;
+    box_t *spell_box;
+    sfCircleShape *arrow;
+} object_t;
 
 typedef struct sprite_s {
     sfSprite *player;
     sfSprite *background;
 } sprite_t;
-
-typedef struct object_s {
-    ground_t *ground;
-    sfCircleShape *arrow;
-} object_t;
 
 typedef struct game_s {
     player_t *player;
@@ -55,5 +64,7 @@ void spell(game_t *game);
 void analyse_event(sfRenderWindow *window, sfEvent event, game_t *game);
 void jump(game_t *game);
 void free_all(sfRenderWindow *window, game_t *game, sfClock *clock);
+void collision_player_wall(game_t *game);
+void collision_box(game_t *game);
 
 #endif

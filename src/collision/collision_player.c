@@ -1,19 +1,12 @@
 
-#include "magicube.h"
-#include <SFML/Config.h>
-#include <SFML/Graphics/Rect.h>
-#include <SFML/Graphics/RectangleShape.h>
-#include <SFML/Graphics/Sprite.h>
-#include <SFML/Graphics/Types.h>
-#include <SFML/System/Vector2.h>
-#include <stdio.h>
-#include <stdlib.h>
 
-int collision_head(game_t *game, ground_t *ground)
+#include "magicube.h"
+
+int collision_head_player(game_t *game, ground_t *ground)
 {
     sfFloatRect player_head = sfSprite_getGlobalBounds(game->sprite->player);
     sfFloatRect ground_bound = sfRectangleShape_getGlobalBounds(ground->ground);
-    sfVector2f pos_down = {player_head.left, ground_bound.top + ground_bound.height};
+    sfVector2f pos_down = {player_head.left + player_head.width / 2, ground_bound.top + ground_bound.height / 2};
 
     player_head.height = 1;
     player_head.left = player_head.left + 2;
@@ -27,11 +20,11 @@ int collision_head(game_t *game, ground_t *ground)
     return EXIT_FAILURE;
 }
 
-int collision_side_left(game_t *game, ground_t *ground)
+int collision_side_left_player(game_t *game, ground_t *ground)
 {
     sfFloatRect player_body = sfSprite_getGlobalBounds(game->sprite->player);
     sfFloatRect ground_bound = sfRectangleShape_getGlobalBounds(ground->ground);
-    sfVector2f pos_left = {ground_bound.left + ground_bound.width + 1, player_body.top};
+    sfVector2f pos_left = {ground_bound.left + ground_bound.width / 2, player_body.top + player_body.height / 2};
 
     player_body.top += 1;
     player_body.height -= 2;
@@ -45,11 +38,11 @@ int collision_side_left(game_t *game, ground_t *ground)
     return EXIT_FAILURE;
 }
 
-int collision_side_right(game_t *game, ground_t *ground)
+int collision_side_right_player(game_t *game, ground_t *ground)
 {
     sfFloatRect player_body = sfSprite_getGlobalBounds(game->sprite->player);
     sfFloatRect ground_bound = sfRectangleShape_getGlobalBounds(ground->ground);
-    sfVector2f pos_right = {ground_bound.left - player_body.width, player_body.top};
+    sfVector2f pos_right = {ground_bound.left - player_body.width / 2, player_body.top + player_body.height / 2};
 
     player_body.top += 1;
     player_body.height -= 2;
@@ -63,11 +56,11 @@ int collision_side_right(game_t *game, ground_t *ground)
     return EXIT_FAILURE;
 }
 
-int collision_ground(game_t *game, ground_t *ground)
+int collision_ground_player(game_t *game, ground_t *ground)
 {
     sfFloatRect player_feet = sfSprite_getGlobalBounds(game->sprite->player);
     sfFloatRect ground_bound = sfRectangleShape_getGlobalBounds(ground->ground);
-    sfVector2f pos_up = {player_feet.left, ground_bound.top - player_feet.height};
+    sfVector2f pos_up = {player_feet.left + player_feet.width / 2, ground_bound.top - player_feet.height / 2};
 
     player_feet.top = player_feet.top + player_feet.height;
     player_feet.height = 2;
@@ -83,20 +76,20 @@ int collision_ground(game_t *game, ground_t *ground)
     return EXIT_FAILURE;
 }
 
-void collision(game_t *game)
+void collision_player_wall(game_t *game)
 {
     for (ground_t *obj = game->object->ground; obj != NULL; obj = obj->next) {
-        if (collision_ground(game, obj) == EXIT_SUCCESS)
+        if (collision_ground_player(game, obj) == EXIT_SUCCESS)
             break;
     }
     for (ground_t *obj = game->object->ground; obj != NULL; obj = obj->next) {
-        if (collision_head(game, obj) == EXIT_SUCCESS)
+        if (collision_head_player(game, obj) == EXIT_SUCCESS)
             break;
     }
     for (ground_t *obj = game->object->ground; obj != NULL; obj = obj->next) {
-        if (collision_side_right(game, obj) == EXIT_SUCCESS)
+        if (collision_side_right_player(game, obj) == EXIT_SUCCESS)
             break;
-        if (collision_side_left(game, obj) == EXIT_SUCCESS)
+        if (collision_side_left_player(game, obj) == EXIT_SUCCESS)
             break;
     }
 }
